@@ -7,6 +7,7 @@ import {
   Settings,
   Leaf
 } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -23,32 +24,34 @@ import {
 const menuItems = [
   {
     title: "Dashboard",
-    url: "#",
+    url: "/",
     icon: BarChart3,
   },
   {
     title: "User Management",
-    url: "#",
+    url: "/user-management",
     icon: Users,
   },
   {
     title: "Orders & Products",
-    url: "#",
+    url: "/orders",
     icon: ShoppingCart,
   },
   {
     title: "Analytics Reports",
-    url: "#",
+    url: "/analytics",
     icon: FileText,
   },
   {
     title: "Settings",
-    url: "#",
+    url: "/settings",
     icon: Settings,
   },
 ];
 
 export function AppSidebar() {
+  const location = useLocation();
+
   return (
     <Sidebar className="border-r border-sidebar-border">
       <SidebarHeader className="border-b border-sidebar-border p-6">
@@ -80,12 +83,13 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton 
                     asChild 
+                    isActive={location.pathname === item.url}
                     className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
                   >
-                    <a href={item.url} className="flex items-center gap-3 px-4 py-3">
+                    <Link to={item.url} className="flex items-center gap-3 px-4 py-3">
                       <item.icon className="h-5 w-5" />
                       <span className="font-quicksand">{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
