@@ -38,7 +38,7 @@ const Dashboard = () => {
                 />
                 <MetricCard
                   title="Total Revenue"
-                  value="₹2.4M"
+                  value="2.4M RWF"
                   change="+8.2%"
                   changeType="positive"
                   icon={DollarSign}
