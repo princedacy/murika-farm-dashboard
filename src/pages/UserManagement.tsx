@@ -29,25 +29,25 @@ const fraudulentAccounts = [
 const UserManagement = () => {
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full">
+      <div className="min-h-screen flex w-full bg-gradient-to-br from-gray-50 to-gray-100">
         <AppSidebar />
         <main className="flex-1 flex flex-col">
-          <header className="flex items-center gap-4 p-6 border-b bg-background">
+          <header className="flex items-center gap-2 sm:gap-4 p-4 sm:p-6 lg:p-8 border-b bg-white/80 backdrop-blur-sm shadow-sm">
             <SidebarTrigger className="text-primary" />
             <div className="flex-1">
-              <h1 className="text-3xl font-poppins font-bold text-foreground">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-poppins font-bold text-foreground mb-1 sm:mb-2">
                 User Management
               </h1>
-              <p className="text-muted-foreground font-quicksand">
+              <p className="text-sm sm:text-base lg:text-lg text-muted-foreground font-quicksand">
                 Manage farmer registrations and handle fraudulent accounts.
               </p>
             </div>
           </header>
 
-          <div className="flex-1 p-6 space-y-8 animate-fade-in">
+          <div className="flex-1 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 lg:space-y-8 animate-fade-in">
             {/* KYC Submissions */}
             <section>
-              <h2 className="text-2xl font-poppins font-semibold mb-6 text-foreground">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-poppins font-semibold mb-4 sm:mb-6 text-foreground">
                 KYC Submissions
               </h2>
               <UserManagementSection />
@@ -55,36 +55,36 @@ const UserManagement = () => {
 
             {/* Fraudulent Accounts */}
             <section>
-              <h2 className="text-2xl font-poppins font-semibold mb-6 text-foreground">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-poppins font-semibold mb-4 sm:mb-6 text-foreground">
                 Fraudulent Accounts
               </h2>
-              <Card>
-                <CardHeader>
-                  <CardTitle className="font-poppins flex items-center gap-2">
-                    <AlertTriangle className="h-5 w-5 text-red-500" />
+              <Card className="border-0 shadow-xl bg-white">
+                <CardHeader className="p-4 sm:p-6">
+                  <CardTitle className="font-poppins flex items-center gap-2 text-lg sm:text-xl">
+                    <AlertTriangle className="h-5 w-5 sm:h-6 sm:w-6 text-red-500" />
                     Flagged Accounts
                   </CardTitle>
-                  <CardDescription className="font-quicksand">
+                  <CardDescription className="font-quicksand text-sm sm:text-base">
                     Review and ban accounts suspected of fraudulent activity
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
+                <CardContent className="p-4 sm:p-6 pt-0">
+                  <div className="space-y-3 sm:space-y-4">
                     {fraudulentAccounts.map((account) => (
-                      <div key={account.id} className="flex items-center justify-between p-4 border rounded-lg bg-red-50 border-red-200">
-                        <div className="flex-1">
-                          <h4 className="font-poppins font-medium text-red-800">{account.name}</h4>
-                          <p className="text-sm text-red-600 font-quicksand">{account.email}</p>
-                          <div className="flex gap-4 mt-2 text-sm font-quicksand">
+                      <div key={account.id} className="flex flex-col lg:flex-row lg:items-center justify-between p-3 sm:p-4 border rounded-xl bg-red-50 border-red-200 hover:bg-red-100 transition-all duration-200">
+                        <div className="flex-1 mb-3 lg:mb-0">
+                          <h4 className="font-poppins font-medium text-red-800 text-sm sm:text-base">{account.name}</h4>
+                          <p className="text-xs sm:text-sm text-red-600 font-quicksand mb-2">{account.email}</p>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 sm:gap-4 text-xs sm:text-sm font-quicksand">
                             <span><strong>Location:</strong> {account.farmLocation}</span>
                             <span><strong>Reason:</strong> {account.reason}</span>
                           </div>
                         </div>
-                        <div className="flex items-center gap-3">
-                          <Badge variant="destructive" className="font-quicksand">
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
+                          <Badge variant="destructive" className="font-quicksand text-xs w-fit">
                             {account.status === "flagged" ? "Flagged" : "Under Review"}
                           </Badge>
-                          <div className="flex gap-2">
+                          <div className="flex flex-col sm:flex-row gap-2">
                             <Button size="sm" variant="outline" className="font-quicksand">
                               <UserCheck className="h-4 w-4 mr-1" />
                               Clear
