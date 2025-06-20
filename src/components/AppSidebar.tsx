@@ -21,67 +21,73 @@ import {
   SidebarMenuItem,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-
-const menuItems = [
-  {
-    title: "Dashboard",
-    url: "/",
-    icon: BarChart3,
-  },
-  {
-    title: "Products",
-    url: "/products",
-    icon: Package,
-  },
-  {
-    title: "Orders",
-    url: "/orders",
-    icon: ShoppingCart,
-  },
-  {
-    title: "Analytics Reports",
-    url: "/analytics",
-    icon: FileText,
-  },
-  {
-    title: "User Management",
-    url: "/user-management",
-    icon: Users,
-  },
-  {
-    title: "Settings",
-    url: "/settings",
-    icon: Settings,
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 export function AppSidebar() {
   const location = useLocation();
+  const { t } = useLanguage();
+
+  const menuItems = [
+    {
+      title: t("dashboard"),
+      url: "/",
+      icon: BarChart3,
+    },
+    {
+      title: t("products"),
+      url: "/products",
+      icon: Package,
+    },
+    {
+      title: t("orders"),
+      url: "/orders",
+      icon: ShoppingCart,
+    },
+    {
+      title: t("analyticsReports"),
+      url: "/analytics",
+      icon: FileText,
+    },
+    {
+      title: t("userManagement"),
+      url: "/user-management",
+      icon: Users,
+    },
+    {
+      title: t("settings"),
+      url: "/settings",
+      icon: Settings,
+    },
+  ];
 
   return (
     <Sidebar className="border-r border-sidebar-border">
       <SidebarHeader className="border-b border-sidebar-border p-6">
-        <div className="flex items-center gap-3">
-          <img 
-            src="/lovable-uploads/4d59c38b-212e-45ce-add5-0cac48484fc2.png" 
-            alt="Mulika Logo" 
-            className="w-10 h-10"
-          />
-          <div className="flex flex-col">
-            <h2 className="text-xl font-poppins font-bold text-sidebar-foreground">
-              Mulika
-            </h2>
-            <p className="text-sm text-sidebar-foreground/70">
-              Farm Dashboard
-            </p>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img 
+              src="/lovable-uploads/4d59c38b-212e-45ce-add5-0cac48484fc2.png" 
+              alt="Mulika Logo" 
+              className="w-10 h-10"
+            />
+            <div className="flex flex-col">
+              <h2 className="text-xl font-poppins font-bold text-sidebar-foreground">
+                Mulika
+              </h2>
+              <p className="text-sm text-sidebar-foreground/70">
+                Farm Dashboard
+              </p>
+            </div>
           </div>
+          <LanguageSwitcher />
         </div>
       </SidebarHeader>
       
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="text-sidebar-foreground/70 font-poppins">
-            Navigation
+            {t("navigation")}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -107,7 +113,7 @@ export function AppSidebar() {
       <SidebarFooter className="border-t border-sidebar-border p-4">
         <div className="flex items-center gap-3 text-sidebar-foreground/70">
           <Leaf className="h-4 w-4" />
-          <span className="text-sm font-quicksand">Growing Together</span>
+          <span className="text-sm font-quicksand">{t("growingTogether")}</span>
         </div>
       </SidebarFooter>
     </Sidebar>

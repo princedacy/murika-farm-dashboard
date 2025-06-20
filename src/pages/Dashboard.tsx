@@ -4,8 +4,11 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { MetricCard } from "@/components/MetricCard";
 import { Users, DollarSign, ShoppingCart, TrendingUp, Target, Leaf, Globe, BarChart3 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Dashboard = () => {
+  const { t } = useLanguage();
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gradient-to-br from-gray-50 to-gray-100">
@@ -15,16 +18,16 @@ const Dashboard = () => {
             <SidebarTrigger className="text-primary" />
             <div className="flex-1">
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-poppins font-bold text-foreground mb-1 sm:mb-2">
-                Dashboard
+                {t("dashboardTitle")}
               </h1>
               <p className="text-sm sm:text-base lg:text-lg text-muted-foreground font-quicksand">
-                Overview of your agricultural platform metrics.
+                {t("dashboardSubtitle")}
               </p>
             </div>
             <div className="hidden lg:flex items-center gap-4">
               <div className="text-right">
-                <p className="text-sm font-quicksand text-muted-foreground">Welcome back</p>
-                <p className="font-poppins font-semibold">Admin Dashboard</p>
+                <p className="text-sm font-quicksand text-muted-foreground">{t("welcomeBack")}</p>
+                <p className="font-poppins font-semibold">{t("adminDashboard")}</p>
               </div>
             </div>
           </header>
@@ -36,33 +39,33 @@ const Dashboard = () => {
               <div className="relative p-4 sm:p-6 lg:p-8 rounded-2xl lg:rounded-3xl border border-primary/10">
                 <h2 className="text-xl sm:text-2xl lg:text-3xl font-poppins font-bold mb-4 sm:mb-6 lg:mb-8 text-foreground flex items-center gap-2 sm:gap-3">
                   <BarChart3 className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-primary" />
-                  <span className="hidden sm:inline">Key Performance Metrics</span>
-                  <span className="sm:hidden">KPIs</span>
+                  <span className="hidden sm:inline">{t("keyPerformanceMetrics")}</span>
+                  <span className="sm:hidden">{t("kpis")}</span>
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
                   <MetricCard
-                    title="Active Farmers"
+                    title={t("activeFarmers")}
                     value="1,247"
                     change="+12.5%"
                     changeType="positive"
                     icon={Users}
                   />
                   <MetricCard
-                    title="Total Revenue"
+                    title={t("totalRevenue")}
                     value="2.4M RWF"
                     change="+8.2%"
                     changeType="positive"
                     icon={DollarSign}
                   />
                   <MetricCard
-                    title="Orders This Month"
+                    title={t("ordersThisMonth")}
                     value="486"
                     change="+15.3%"
                     changeType="positive"
                     icon={ShoppingCart}
                   />
                   <MetricCard
-                    title="Growth Rate"
+                    title={t("growthRate")}
                     value="23.1%"
                     change="+2.4%"
                     changeType="positive"
@@ -86,11 +89,11 @@ const Dashboard = () => {
                     </div>
                     <div>
                       <h3 className="text-xl sm:text-2xl font-poppins font-bold">847</h3>
-                      <p className="text-sm sm:text-base font-quicksand opacity-90">Farmers Onboarded</p>
+                      <p className="text-sm sm:text-base font-quicksand opacity-90">{t("farmersOnboarded")}</p>
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <p className="font-quicksand text-xs sm:text-sm opacity-90">This month: +127 new farmers joined</p>
+                    <p className="font-quicksand text-xs sm:text-sm opacity-90">{t("thisMonth")}</p>
                     <div className="w-full bg-white/20 rounded-full h-2">
                       <div className="bg-white h-2 rounded-full w-3/4"></div>
                     </div>
@@ -110,14 +113,14 @@ const Dashboard = () => {
                     </div>
                     <div>
                       <h3 className="text-xl sm:text-2xl font-poppins font-bold">156</h3>
-                      <p className="text-sm sm:text-base font-quicksand opacity-90">Crop Varieties Listed</p>
+                      <p className="text-sm sm:text-base font-quicksand opacity-90">{t("cropVarietiesListed")}</p>
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <p className="font-quicksand text-xs sm:text-sm opacity-90">Coffee, Rice, Potatoes, Vegetables & more</p>
+                    <p className="font-quicksand text-xs sm:text-sm opacity-90">{t("cropDescription")}</p>
                     <div className="flex gap-1 sm:gap-2 flex-wrap">
-                      <span className="px-2 py-1 sm:px-3 bg-black/10 rounded-full text-xs font-quicksand">Coffee</span>
-                      <span className="px-2 py-1 sm:px-3 bg-black/10 rounded-full text-xs font-quicksand">Rice</span>
+                      <span className="px-2 py-1 sm:px-3 bg-black/10 rounded-full text-xs font-quicksand">{t("coffee")}</span>
+                      <span className="px-2 py-1 sm:px-3 bg-black/10 rounded-full text-xs font-quicksand">{t("rice")}</span>
                       <span className="px-2 py-1 sm:px-3 bg-black/10 rounded-full text-xs font-quicksand">+154</span>
                     </div>
                   </div>
@@ -129,7 +132,7 @@ const Dashboard = () => {
                 <CardHeader className="pb-3 sm:pb-4 p-4 sm:p-6">
                   <CardTitle className="text-base sm:text-lg font-poppins flex items-center gap-2 sm:gap-3">
                     <Target className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
-                    Quick Actions
+                    {t("quickActions")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6 pt-0">
@@ -139,8 +142,8 @@ const Dashboard = () => {
                         <Users className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                       </div>
                       <div>
-                        <p className="text-sm sm:text-base font-poppins font-medium">Review KYC</p>
-                        <p className="text-xs sm:text-sm text-muted-foreground font-quicksand">3 pending approvals</p>
+                        <p className="text-sm sm:text-base font-poppins font-medium">{t("reviewKYC")}</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground font-quicksand">{t("pendingApprovals")}</p>
                       </div>
                     </div>
                   </button>
@@ -151,8 +154,8 @@ const Dashboard = () => {
                         <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                       </div>
                       <div>
-                        <p className="text-sm sm:text-base font-poppins font-medium">Process Orders</p>
-                        <p className="text-xs sm:text-sm text-muted-foreground font-quicksand">12 new orders</p>
+                        <p className="text-sm sm:text-base font-poppins font-medium">{t("processOrders")}</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground font-quicksand">{t("newOrders")}</p>
                       </div>
                     </div>
                   </button>
@@ -163,8 +166,8 @@ const Dashboard = () => {
                         <Globe className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                       </div>
                       <div>
-                        <p className="text-sm sm:text-base font-poppins font-medium">Platform Status</p>
-                        <p className="text-xs sm:text-sm text-muted-foreground font-quicksand">All systems operational</p>
+                        <p className="text-sm sm:text-base font-poppins font-medium">{t("platformStatus")}</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground font-quicksand">{t("systemsOperational")}</p>
                       </div>
                     </div>
                   </button>
@@ -180,7 +183,7 @@ const Dashboard = () => {
                     <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-green-600" />
                   </div>
                   <div>
-                    <p className="text-sm sm:text-base lg:text-lg font-poppins font-semibold">Monthly Growth</p>
+                    <p className="text-sm sm:text-base lg:text-lg font-poppins font-semibold">{t("monthlyGrowth")}</p>
                     <p className="text-xl sm:text-2xl lg:text-3xl font-poppins font-bold text-green-600">+18.5%</p>
                   </div>
                 </div>
@@ -192,7 +195,7 @@ const Dashboard = () => {
                     <Globe className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
                   </div>
                   <div>
-                    <p className="text-sm sm:text-base lg:text-lg font-poppins font-semibold">Coverage Areas</p>
+                    <p className="text-sm sm:text-base lg:text-lg font-poppins font-semibold">{t("coverageAreas")}</p>
                     <p className="text-xl sm:text-2xl lg:text-3xl font-poppins font-bold text-blue-600">24</p>
                   </div>
                 </div>
@@ -204,7 +207,7 @@ const Dashboard = () => {
                     <Target className="h-5 w-5 sm:h-6 sm:w-6 text-orange-600" />
                   </div>
                   <div>
-                    <p className="text-sm sm:text-base lg:text-lg font-poppins font-semibold">Success Rate</p>
+                    <p className="text-sm sm:text-base lg:text-lg font-poppins font-semibold">{t("successRate")}</p>
                     <p className="text-xl sm:text-2xl lg:text-3xl font-poppins font-bold text-orange-600">94.2%</p>
                   </div>
                 </div>
