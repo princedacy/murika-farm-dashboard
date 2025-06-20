@@ -29,9 +29,9 @@ const menuItems = [
     icon: BarChart3,
   },
   {
-    title: "User Management",
-    url: "/user-management",
-    icon: Users,
+    title: "Products",
+    url: "/products",
+    icon: Package,
   },
   {
     title: "Orders",
@@ -39,14 +39,14 @@ const menuItems = [
     icon: ShoppingCart,
   },
   {
-    title: "Products",
-    url: "/products",
-    icon: Package,
-  },
-  {
     title: "Analytics Reports",
     url: "/analytics",
     icon: FileText,
+  },
+  {
+    title: "User Management",
+    url: "/user-management",
+    icon: Users,
   },
   {
     title: "Settings",
@@ -64,12 +64,12 @@ export function AppSidebar() {
         <div className="flex items-center gap-3">
           <img 
             src="/lovable-uploads/4d59c38b-212e-45ce-add5-0cac48484fc2.png" 
-            alt="Murika Logo" 
+            alt="Mulika Logo" 
             className="w-10 h-10"
           />
           <div className="flex flex-col">
             <h2 className="text-xl font-poppins font-bold text-sidebar-foreground">
-              Murika
+              Mulika
             </h2>
             <p className="text-sm text-sidebar-foreground/70">
               Farm Dashboard
