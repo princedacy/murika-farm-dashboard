@@ -5,7 +5,8 @@ import {
   ShoppingCart, 
   FileText, 
   Settings,
-  Leaf
+  Leaf,
+  Package
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -33,9 +34,14 @@ const menuItems = [
     icon: Users,
   },
   {
-    title: "Orders & Products",
+    title: "Orders",
     url: "/orders",
     icon: ShoppingCart,
+  },
+  {
+    title: "Products",
+    url: "/products",
+    icon: Package,
   },
   {
     title: "Analytics Reports",
