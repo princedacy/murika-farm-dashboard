@@ -1,4 +1,3 @@
-
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -28,10 +27,10 @@ const Analytics = () => {
   ];
 
   const cropData = [
-    { name: "Maize", value: 400, fill: "hsl(var(--chart-1))" },
-    { name: "Beans", value: 300, fill: "hsl(var(--chart-2))" },
-    { name: "Rice", value: 200, fill: "hsl(var(--chart-3))" },
-    { name: "Potatoes", value: 150, fill: "hsl(var(--chart-4))" },
+    { name: "Maize", value: 400, fill: "#10B981" }, // emerald-500
+    { name: "Beans", value: 300, fill: "#F59E0B" }, // amber-500
+    { name: "Rice", value: 200, fill: "#EF4444" }, // red-500
+    { name: "Potatoes", value: 150, fill: "#8B5CF6" }, // violet-500
   ];
 
   const userGrowthData = [
@@ -44,19 +43,19 @@ const Analytics = () => {
   const chartConfig = {
     revenue: {
       label: "Revenue",
-      color: "hsl(var(--chart-1))",
+      color: "#059669", // emerald-600
     },
     orders: {
       label: "Orders",
-      color: "hsl(var(--chart-2))",
+      color: "#DC2626", // red-600
     },
     farmers: {
       label: "Farmers",
-      color: "hsl(var(--chart-1))",
+      color: "#7C3AED", // violet-600
     },
     buyers: {
       label: "Buyers",
-      color: "hsl(var(--chart-2))",
+      color: "#EA580C", // orange-600
     },
   };
 
