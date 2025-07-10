@@ -10,6 +10,8 @@ import UserManagement from "./pages/UserManagement";
 import Analytics from "./pages/Analytics";
 import OrderManagement from "./pages/OrderManagement";
 import Products from "./pages/Products";
+import Farmers from "./pages/Farmers";
+import Customers from "./pages/Customers";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
@@ -27,6 +29,8 @@ const App = () => (
             <Route path="/user-management" element={<UserManagement />} />
             <Route path="/orders" element={<OrderManagement />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/farmers" element={<Farmers />} />
+            <Route path="/customers" element={<Customers />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/settings" element={<Settings />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

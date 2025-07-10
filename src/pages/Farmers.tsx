@@ -5,96 +5,92 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Package, Plus, Filter, Edit, Trash2 } from "lucide-react";
+import { UserCheck, Plus, Filter, Edit, Trash2 } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-const initialProducts = [
+const initialFarmers = [
   {
-    id: "PROD-001",
-    name: "Arabica Coffee Beans",
-    category: "Coffee",
-    farmer: "Jean Baptiste Uwimana",
-    price: "1,500 RWF/kg",
-    stock: "150 kg",
-    status: "active"
+    id: "FARM-001",
+    name: "Jean Baptiste Uwimana",
+    email: "jean.uwimana@email.com",
+    phone: "+250 788 123 456",
+    location: "Gasabo, Kigali",
+    farmSize: "5 hectares",
+    crops: "Coffee, Maize",
+    status: "verified"
   },
   {
-    id: "PROD-002", 
-    name: "Fresh Potatoes",
-    category: "Vegetables",
-    farmer: "Marie Claire Mukamana",
-    price: "250 RWF/kg",
-    stock: "300 kg",
-    status: "active"
+    id: "FARM-002",
+    name: "Marie Claire Mukamana",
+    email: "marie.mukamana@email.com",
+    phone: "+250 788 234 567",
+    location: "Nyarugenge, Kigali",
+    farmSize: "3 hectares",
+    crops: "Potatoes, Beans",
+    status: "verified"
   },
   {
-    id: "PROD-003",
-    name: "Organic Rice",
-    category: "Grains",
-    farmer: "Emmanuel Nkurunziza",
-    price: "800 RWF/kg",
-    stock: "75 kg",
-    status: "low_stock"
+    id: "FARM-003",
+    name: "Emmanuel Nkurunziza",
+    email: "emmanuel.nkuru@email.com",
+    phone: "+250 788 345 678",
+    location: "Huye, Southern Province",
+    farmSize: "7 hectares",
+    crops: "Rice, Vegetables",
+    status: "pending"
   },
   {
-    id: "PROD-004",
-    name: "Fresh Tomatoes",
-    category: "Vegetables",
-    farmer: "Solange Mukabana",
-    price: "400 RWF/kg",
-    stock: "200 kg",
-    status: "active"
-  },
-  {
-    id: "PROD-005",
-    name: "Bananas",
-    category: "Fruits",
-    farmer: "Paul Niyitegeka",
-    price: "300 RWF/kg",
-    stock: "120 kg",
-    status: "active"
+    id: "FARM-004",
+    name: "Solange Mukabana",
+    email: "solange.mukabana@email.com",
+    phone: "+250 788 456 789",
+    location: "Musanze, Northern Province",
+    farmSize: "4 hectares",
+    crops: "Tomatoes, Carrots",
+    status: "verified"
   }
 ];
 
-const Products = () => {
-  const [products, setProducts] = useState(initialProducts);
+const Farmers = () => {
+  const [farmers, setFarmers] = useState(initialFarmers);
   const [currentPage, setCurrentPage] = useState(1);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState(null);
+  const [editingFarmer, setEditingFarmer] = useState(null);
   const itemsPerPage = 5;
 
   const [formData, setFormData] = useState({
     name: "",
-    category: "",
-    farmer: "",
-    price: "",
-    stock: "",
-    status: "active"
+    email: "",
+    phone: "",
+    location: "",
+    farmSize: "",
+    crops: "",
+    status: "pending"
   });
 
-  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const totalPages = Math.ceil(farmers.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedProducts = products.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedFarmers = farmers.slice(startIndex, startIndex + itemsPerPage);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (editingProduct) {
-      setProducts(prev => prev.map(product => 
-        product.id === editingProduct.id 
-          ? { ...product, ...formData }
-          : product
+    if (editingFarmer) {
+      setFarmers(prev => prev.map(farmer => 
+        farmer.id === editingFarmer.id 
+          ? { ...farmer, ...formData }
+          : farmer
       ));
     } else {
-      const newProduct = {
-        id: `PROD-${String(products.length + 1).padStart(3, '0')}`,
+      const newFarmer = {
+        id: `FARM-${String(farmers.length + 1).padStart(3, '0')}`,
         ...formData
       };
-      setProducts(prev => [...prev, newProduct]);
+      setFarmers(prev => [...prev, newFarmer]);
     }
     resetForm();
   };
@@ -102,31 +98,33 @@ const Products = () => {
   const resetForm = () => {
     setFormData({
       name: "",
-      category: "",
-      farmer: "",
-      price: "",
-      stock: "",
-      status: "active"
+      email: "",
+      phone: "",
+      location: "",
+      farmSize: "",
+      crops: "",
+      status: "pending"
     });
-    setEditingProduct(null);
+    setEditingFarmer(null);
     setIsDialogOpen(false);
   };
 
-  const handleEdit = (product) => {
-    setEditingProduct(product);
+  const handleEdit = (farmer) => {
+    setEditingFarmer(farmer);
     setFormData({
-      name: product.name,
-      category: product.category,
-      farmer: product.farmer,
-      price: product.price,
-      stock: product.stock,
-      status: product.status
+      name: farmer.name,
+      email: farmer.email,
+      phone: farmer.phone,
+      location: farmer.location,
+      farmSize: farmer.farmSize,
+      crops: farmer.crops,
+      status: farmer.status
     });
     setIsDialogOpen(true);
   };
 
-  const handleDelete = (productId) => {
-    setProducts(prev => prev.filter(product => product.id !== productId));
+  const handleDelete = (farmerId) => {
+    setFarmers(prev => prev.filter(farmer => farmer.id !== farmerId));
   };
 
   return (
@@ -138,10 +136,10 @@ const Products = () => {
             <SidebarTrigger className="text-primary" />
             <div className="flex-1">
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-poppins font-bold text-foreground mb-1 sm:mb-2">
-                Product Management
+                Farmers Management
               </h1>
               <p className="text-sm sm:text-base lg:text-lg text-muted-foreground font-quicksand">
-                Manage product listings and inventory from farmers.
+                Manage farmer profiles and verification status.
               </p>
             </div>
           </header>
@@ -150,7 +148,7 @@ const Products = () => {
             <section>
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 sm:mb-6">
                 <h2 className="text-xl sm:text-2xl lg:text-3xl font-poppins font-semibold text-foreground">
-                  Product Listings
+                  Registered Farmers
                 </h2>
                 <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                   <Button variant="outline" className="font-quicksand w-full sm:w-auto">
@@ -161,19 +159,19 @@ const Products = () => {
                     <DialogTrigger asChild>
                       <Button className="bg-primary hover:bg-primary/90 font-quicksand w-full sm:w-auto">
                         <Plus className="h-4 w-4 mr-2" />
-                        Add Product
+                        Add Farmer
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="max-w-md">
                       <DialogHeader>
-                        <DialogTitle>{editingProduct ? 'Edit Product' : 'Add New Product'}</DialogTitle>
+                        <DialogTitle>{editingFarmer ? 'Edit Farmer' : 'Add New Farmer'}</DialogTitle>
                         <DialogDescription>
-                          {editingProduct ? 'Update product information.' : 'Fill in the product details below.'}
+                          {editingFarmer ? 'Update farmer information.' : 'Fill in the farmer details below.'}
                         </DialogDescription>
                       </DialogHeader>
                       <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
-                          <Label htmlFor="name">Product Name</Label>
+                          <Label htmlFor="name">Full Name</Label>
                           <Input
                             id="name"
                             value={formData.name}
@@ -182,40 +180,50 @@ const Products = () => {
                           />
                         </div>
                         <div>
-                          <Label htmlFor="category">Category</Label>
+                          <Label htmlFor="email">Email</Label>
                           <Input
-                            id="category"
-                            value={formData.category}
-                            onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
+                            id="email"
+                            type="email"
+                            value={formData.email}
+                            onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                             required
                           />
                         </div>
                         <div>
-                          <Label htmlFor="farmer">Farmer</Label>
+                          <Label htmlFor="phone">Phone</Label>
                           <Input
-                            id="farmer"
-                            value={formData.farmer}
-                            onChange={(e) => setFormData(prev => ({ ...prev, farmer: e.target.value }))}
+                            id="phone"
+                            value={formData.phone}
+                            onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
                             required
                           />
                         </div>
                         <div>
-                          <Label htmlFor="price">Price</Label>
+                          <Label htmlFor="location">Location</Label>
                           <Input
-                            id="price"
-                            value={formData.price}
-                            onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value }))}
-                            placeholder="e.g., 1,000 RWF/kg"
+                            id="location"
+                            value={formData.location}
+                            onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
                             required
                           />
                         </div>
                         <div>
-                          <Label htmlFor="stock">Stock</Label>
+                          <Label htmlFor="farmSize">Farm Size</Label>
                           <Input
-                            id="stock"
-                            value={formData.stock}
-                            onChange={(e) => setFormData(prev => ({ ...prev, stock: e.target.value }))}
-                            placeholder="e.g., 100 kg"
+                            id="farmSize"
+                            value={formData.farmSize}
+                            onChange={(e) => setFormData(prev => ({ ...prev, farmSize: e.target.value }))}
+                            placeholder="e.g., 5 hectares"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="crops">Crops</Label>
+                          <Input
+                            id="crops"
+                            value={formData.crops}
+                            onChange={(e) => setFormData(prev => ({ ...prev, crops: e.target.value }))}
+                            placeholder="e.g., Coffee, Maize"
                             required
                           />
                         </div>
@@ -226,15 +234,15 @@ const Products = () => {
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="active">Active</SelectItem>
-                              <SelectItem value="low_stock">Low Stock</SelectItem>
-                              <SelectItem value="inactive">Inactive</SelectItem>
+                              <SelectItem value="verified">Verified</SelectItem>
+                              <SelectItem value="pending">Pending</SelectItem>
+                              <SelectItem value="rejected">Rejected</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
                         <div className="flex gap-2 pt-4">
                           <Button type="submit" className="flex-1">
-                            {editingProduct ? 'Update' : 'Add'} Product
+                            {editingFarmer ? 'Update' : 'Add'} Farmer
                           </Button>
                           <Button type="button" variant="outline" onClick={resetForm}>
                             Cancel
@@ -249,53 +257,60 @@ const Products = () => {
               <Card className="border-0 shadow-xl bg-white">
                 <CardHeader className="p-4 sm:p-6">
                   <CardTitle className="font-poppins flex items-center gap-2 text-lg sm:text-xl">
-                    <Package className="h-5 w-5 sm:h-6 sm:w-6" />
-                    Product Catalog
+                    <UserCheck className="h-5 w-5 sm:h-6 sm:w-6" />
+                    Farmers Directory
                   </CardTitle>
                   <CardDescription className="font-quicksand text-sm sm:text-base">
-                    Manage product listings and inventory
+                    Manage farmer profiles and verification
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-4 sm:p-6 pt-0">
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Product ID</TableHead>
+                        <TableHead>Farmer ID</TableHead>
                         <TableHead>Name</TableHead>
-                        <TableHead>Category</TableHead>
-                        <TableHead>Farmer</TableHead>
-                        <TableHead>Price</TableHead>
-                        <TableHead>Stock</TableHead>
+                        <TableHead>Contact</TableHead>
+                        <TableHead>Location</TableHead>
+                        <TableHead>Farm Size</TableHead>
+                        <TableHead>Crops</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead>Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {paginatedProducts.map((product) => (
-                        <TableRow key={product.id}>
-                          <TableCell className="font-medium">{product.id}</TableCell>
-                          <TableCell>{product.name}</TableCell>
-                          <TableCell>{product.category}</TableCell>
-                          <TableCell>{product.farmer}</TableCell>
-                          <TableCell>{product.price}</TableCell>
-                          <TableCell>{product.stock}</TableCell>
+                      {paginatedFarmers.map((farmer) => (
+                        <TableRow key={farmer.id}>
+                          <TableCell className="font-medium">{farmer.id}</TableCell>
+                          <TableCell>{farmer.name}</TableCell>
+                          <TableCell>
+                            <div className="text-sm">
+                              <div>{farmer.email}</div>
+                              <div className="text-muted-foreground">{farmer.phone}</div>
+                            </div>
+                          </TableCell>
+                          <TableCell>{farmer.location}</TableCell>
+                          <TableCell>{farmer.farmSize}</TableCell>
+                          <TableCell>{farmer.crops}</TableCell>
                           <TableCell>
                             <Badge 
                               className={`${
-                                product.status === 'active' 
+                                farmer.status === 'verified' 
                                   ? 'bg-green-100 text-green-800' 
-                                  : 'bg-yellow-100 text-yellow-800'
+                                  : farmer.status === 'pending'
+                                  ? 'bg-yellow-100 text-yellow-800'
+                                  : 'bg-red-100 text-red-800'
                               }`}
                             >
-                              {product.status === 'active' ? 'Active' : 'Low Stock'}
+                              {farmer.status}
                             </Badge>
                           </TableCell>
                           <TableCell>
                             <div className="flex gap-2">
-                              <Button size="sm" variant="outline" onClick={() => handleEdit(product)}>
+                              <Button size="sm" variant="outline" onClick={() => handleEdit(farmer)}>
                                 <Edit className="h-4 w-4" />
                               </Button>
-                              <Button size="sm" variant="outline" onClick={() => handleDelete(product.id)}>
+                              <Button size="sm" variant="outline" onClick={() => handleDelete(farmer.id)}>
                                 <Trash2 className="h-4 w-4" />
                               </Button>
                             </div>
@@ -344,4 +359,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Farmers;

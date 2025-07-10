@@ -5,96 +5,92 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Package, Plus, Filter, Edit, Trash2 } from "lucide-react";
+import { UsersRound, Plus, Filter, Edit, Trash2 } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-const initialProducts = [
+const initialCustomers = [
   {
-    id: "PROD-001",
-    name: "Arabica Coffee Beans",
-    category: "Coffee",
-    farmer: "Jean Baptiste Uwimana",
-    price: "1,500 RWF/kg",
-    stock: "150 kg",
+    id: "CUST-001",
+    name: "Alice Uwamahoro",
+    email: "alice.uwamahoro@email.com",
+    phone: "+250 788 987 654",
+    location: "Kicukiro, Kigali",
+    customerType: "Individual",
+    totalOrders: 12,
     status: "active"
   },
   {
-    id: "PROD-002", 
-    name: "Fresh Potatoes",
-    category: "Vegetables",
-    farmer: "Marie Claire Mukamana",
-    price: "250 RWF/kg",
-    stock: "300 kg",
+    id: "CUST-002",
+    name: "Green Valley Restaurant",
+    email: "orders@greenvalley.com",
+    phone: "+250 788 876 543",
+    location: "Nyarugenge, Kigali",
+    customerType: "Business",
+    totalOrders: 45,
     status: "active"
   },
   {
-    id: "PROD-003",
-    name: "Organic Rice",
-    category: "Grains",
-    farmer: "Emmanuel Nkurunziza",
-    price: "800 RWF/kg",
-    stock: "75 kg",
-    status: "low_stock"
+    id: "CUST-003",
+    name: "Pierre Habimana",
+    email: "pierre.habimana@email.com",
+    phone: "+250 788 765 432",
+    location: "Gasabo, Kigali",
+    customerType: "Individual",
+    totalOrders: 8,
+    status: "inactive"
   },
   {
-    id: "PROD-004",
-    name: "Fresh Tomatoes",
-    category: "Vegetables",
-    farmer: "Solange Mukabana",
-    price: "400 RWF/kg",
-    stock: "200 kg",
-    status: "active"
-  },
-  {
-    id: "PROD-005",
-    name: "Bananas",
-    category: "Fruits",
-    farmer: "Paul Niyitegeka",
-    price: "300 RWF/kg",
-    stock: "120 kg",
+    id: "CUST-004",
+    name: "Fresh Market Ltd",
+    email: "procurement@freshmarket.rw",
+    phone: "+250 788 654 321",
+    location: "Huye, Southern Province",
+    customerType: "Business",
+    totalOrders: 67,
     status: "active"
   }
 ];
 
-const Products = () => {
-  const [products, setProducts] = useState(initialProducts);
+const Customers = () => {
+  const [customers, setCustomers] = useState(initialCustomers);
   const [currentPage, setCurrentPage] = useState(1);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState(null);
+  const [editingCustomer, setEditingCustomer] = useState(null);
   const itemsPerPage = 5;
 
   const [formData, setFormData] = useState({
     name: "",
-    category: "",
-    farmer: "",
-    price: "",
-    stock: "",
+    email: "",
+    phone: "",
+    location: "",
+    customerType: "Individual",
+    totalOrders: 0,
     status: "active"
   });
 
-  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const totalPages = Math.ceil(customers.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedProducts = products.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedCustomers = customers.slice(startIndex, startIndex + itemsPerPage);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (editingProduct) {
-      setProducts(prev => prev.map(product => 
-        product.id === editingProduct.id 
-          ? { ...product, ...formData }
-          : product
+    if (editingCustomer) {
+      setCustomers(prev => prev.map(customer => 
+        customer.id === editingCustomer.id 
+          ? { ...customer, ...formData }
+          : customer
       ));
     } else {
-      const newProduct = {
-        id: `PROD-${String(products.length + 1).padStart(3, '0')}`,
+      const newCustomer = {
+        id: `CUST-${String(customers.length + 1).padStart(3, '0')}`,
         ...formData
       };
-      setProducts(prev => [...prev, newProduct]);
+      setCustomers(prev => [...prev, newCustomer]);
     }
     resetForm();
   };
@@ -102,31 +98,33 @@ const Products = () => {
   const resetForm = () => {
     setFormData({
       name: "",
-      category: "",
-      farmer: "",
-      price: "",
-      stock: "",
+      email: "",
+      phone: "",
+      location: "",
+      customerType: "Individual",
+      totalOrders: 0,
       status: "active"
     });
-    setEditingProduct(null);
+    setEditingCustomer(null);
     setIsDialogOpen(false);
   };
 
-  const handleEdit = (product) => {
-    setEditingProduct(product);
+  const handleEdit = (customer) => {
+    setEditingCustomer(customer);
     setFormData({
-      name: product.name,
-      category: product.category,
-      farmer: product.farmer,
-      price: product.price,
-      stock: product.stock,
-      status: product.status
+      name: customer.name,
+      email: customer.email,
+      phone: customer.phone,
+      location: customer.location,
+      customerType: customer.customerType,
+      totalOrders: customer.totalOrders,
+      status: customer.status
     });
     setIsDialogOpen(true);
   };
 
-  const handleDelete = (productId) => {
-    setProducts(prev => prev.filter(product => product.id !== productId));
+  const handleDelete = (customerId) => {
+    setCustomers(prev => prev.filter(customer => customer.id !== customerId));
   };
 
   return (
@@ -138,10 +136,10 @@ const Products = () => {
             <SidebarTrigger className="text-primary" />
             <div className="flex-1">
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-poppins font-bold text-foreground mb-1 sm:mb-2">
-                Product Management
+                Customer Management
               </h1>
               <p className="text-sm sm:text-base lg:text-lg text-muted-foreground font-quicksand">
-                Manage product listings and inventory from farmers.
+                Manage customer profiles and order history.
               </p>
             </div>
           </header>
@@ -150,7 +148,7 @@ const Products = () => {
             <section>
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 sm:mb-6">
                 <h2 className="text-xl sm:text-2xl lg:text-3xl font-poppins font-semibold text-foreground">
-                  Product Listings
+                  Customer Directory
                 </h2>
                 <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                   <Button variant="outline" className="font-quicksand w-full sm:w-auto">
@@ -161,19 +159,19 @@ const Products = () => {
                     <DialogTrigger asChild>
                       <Button className="bg-primary hover:bg-primary/90 font-quicksand w-full sm:w-auto">
                         <Plus className="h-4 w-4 mr-2" />
-                        Add Product
+                        Add Customer
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="max-w-md">
                       <DialogHeader>
-                        <DialogTitle>{editingProduct ? 'Edit Product' : 'Add New Product'}</DialogTitle>
+                        <DialogTitle>{editingCustomer ? 'Edit Customer' : 'Add New Customer'}</DialogTitle>
                         <DialogDescription>
-                          {editingProduct ? 'Update product information.' : 'Fill in the product details below.'}
+                          {editingCustomer ? 'Update customer information.' : 'Fill in the customer details below.'}
                         </DialogDescription>
                       </DialogHeader>
                       <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
-                          <Label htmlFor="name">Product Name</Label>
+                          <Label htmlFor="name">Name</Label>
                           <Input
                             id="name"
                             value={formData.name}
@@ -182,41 +180,53 @@ const Products = () => {
                           />
                         </div>
                         <div>
-                          <Label htmlFor="category">Category</Label>
+                          <Label htmlFor="email">Email</Label>
                           <Input
-                            id="category"
-                            value={formData.category}
-                            onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
+                            id="email"
+                            type="email"
+                            value={formData.email}
+                            onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                             required
                           />
                         </div>
                         <div>
-                          <Label htmlFor="farmer">Farmer</Label>
+                          <Label htmlFor="phone">Phone</Label>
                           <Input
-                            id="farmer"
-                            value={formData.farmer}
-                            onChange={(e) => setFormData(prev => ({ ...prev, farmer: e.target.value }))}
+                            id="phone"
+                            value={formData.phone}
+                            onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
                             required
                           />
                         </div>
                         <div>
-                          <Label htmlFor="price">Price</Label>
+                          <Label htmlFor="location">Location</Label>
                           <Input
-                            id="price"
-                            value={formData.price}
-                            onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value }))}
-                            placeholder="e.g., 1,000 RWF/kg"
+                            id="location"
+                            value={formData.location}
+                            onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
                             required
                           />
                         </div>
                         <div>
-                          <Label htmlFor="stock">Stock</Label>
+                          <Label htmlFor="customerType">Customer Type</Label>
+                          <Select value={formData.customerType} onValueChange={(value) => setFormData(prev => ({ ...prev, customerType: value }))}>
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="Individual">Individual</SelectItem>
+                              <SelectItem value="Business">Business</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div>
+                          <Label htmlFor="totalOrders">Total Orders</Label>
                           <Input
-                            id="stock"
-                            value={formData.stock}
-                            onChange={(e) => setFormData(prev => ({ ...prev, stock: e.target.value }))}
-                            placeholder="e.g., 100 kg"
-                            required
+                            id="totalOrders"
+                            type="number"
+                            value={formData.totalOrders}
+                            onChange={(e) => setFormData(prev => ({ ...prev, totalOrders: parseInt(e.target.value) || 0 }))}
+                            min="0"
                           />
                         </div>
                         <div>
@@ -227,14 +237,13 @@ const Products = () => {
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="active">Active</SelectItem>
-                              <SelectItem value="low_stock">Low Stock</SelectItem>
                               <SelectItem value="inactive">Inactive</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
                         <div className="flex gap-2 pt-4">
                           <Button type="submit" className="flex-1">
-                            {editingProduct ? 'Update' : 'Add'} Product
+                            {editingCustomer ? 'Update' : 'Add'} Customer
                           </Button>
                           <Button type="button" variant="outline" onClick={resetForm}>
                             Cancel
@@ -249,53 +258,58 @@ const Products = () => {
               <Card className="border-0 shadow-xl bg-white">
                 <CardHeader className="p-4 sm:p-6">
                   <CardTitle className="font-poppins flex items-center gap-2 text-lg sm:text-xl">
-                    <Package className="h-5 w-5 sm:h-6 sm:w-6" />
-                    Product Catalog
+                    <UsersRound className="h-5 w-5 sm:h-6 sm:w-6" />
+                    Customer Database
                   </CardTitle>
                   <CardDescription className="font-quicksand text-sm sm:text-base">
-                    Manage product listings and inventory
+                    Manage customer profiles and relationships
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-4 sm:p-6 pt-0">
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Product ID</TableHead>
+                        <TableHead>Customer ID</TableHead>
                         <TableHead>Name</TableHead>
-                        <TableHead>Category</TableHead>
-                        <TableHead>Farmer</TableHead>
-                        <TableHead>Price</TableHead>
-                        <TableHead>Stock</TableHead>
+                        <TableHead>Contact</TableHead>
+                        <TableHead>Location</TableHead>
+                        <TableHead>Type</TableHead>
+                        <TableHead>Total Orders</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead>Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {paginatedProducts.map((product) => (
-                        <TableRow key={product.id}>
-                          <TableCell className="font-medium">{product.id}</TableCell>
-                          <TableCell>{product.name}</TableCell>
-                          <TableCell>{product.category}</TableCell>
-                          <TableCell>{product.farmer}</TableCell>
-                          <TableCell>{product.price}</TableCell>
-                          <TableCell>{product.stock}</TableCell>
+                      {paginatedCustomers.map((customer) => (
+                        <TableRow key={customer.id}>
+                          <TableCell className="font-medium">{customer.id}</TableCell>
+                          <TableCell>{customer.name}</TableCell>
+                          <TableCell>
+                            <div className="text-sm">
+                              <div>{customer.email}</div>
+                              <div className="text-muted-foreground">{customer.phone}</div>
+                            </div>
+                          </TableCell>
+                          <TableCell>{customer.location}</TableCell>
+                          <TableCell>{customer.customerType}</TableCell>
+                          <TableCell>{customer.totalOrders}</TableCell>
                           <TableCell>
                             <Badge 
                               className={`${
-                                product.status === 'active' 
+                                customer.status === 'active' 
                                   ? 'bg-green-100 text-green-800' 
-                                  : 'bg-yellow-100 text-yellow-800'
+                                  : 'bg-gray-100 text-gray-800'
                               }`}
                             >
-                              {product.status === 'active' ? 'Active' : 'Low Stock'}
+                              {customer.status}
                             </Badge>
                           </TableCell>
                           <TableCell>
                             <div className="flex gap-2">
-                              <Button size="sm" variant="outline" onClick={() => handleEdit(product)}>
+                              <Button size="sm" variant="outline" onClick={() => handleEdit(customer)}>
                                 <Edit className="h-4 w-4" />
                               </Button>
-                              <Button size="sm" variant="outline" onClick={() => handleDelete(product.id)}>
+                              <Button size="sm" variant="outline" onClick={() => handleDelete(customer.id)}>
                                 <Trash2 className="h-4 w-4" />
                               </Button>
                             </div>
@@ -344,4 +358,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Customers;

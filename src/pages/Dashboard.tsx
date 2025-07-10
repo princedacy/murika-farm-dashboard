@@ -2,7 +2,7 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { MetricCard } from "@/components/MetricCard";
-import { Users, DollarSign, ShoppingCart, TrendingUp, Target, Leaf, Globe, BarChart3 } from "lucide-react";
+import { Users, DollarSign, ShoppingCart, Package, Target, Leaf, Globe, BarChart3 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -44,11 +44,25 @@ const Dashboard = () => {
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
                   <MetricCard
-                    title={t("activeFarmers")}
+                    title="Active Farmers"
                     value="1,247"
                     change="+12.5%"
                     changeType="positive"
                     icon={Users}
+                  />
+                  <MetricCard
+                    title="Products"
+                    value="3,456"
+                    change="+23.1%"
+                    changeType="positive"
+                    icon={Package}
+                  />
+                  <MetricCard
+                    title="Active Buyers"
+                    value="892"
+                    change="+15.3%"
+                    changeType="positive"
+                    icon={ShoppingCart}
                   />
                   <MetricCard
                     title={t("totalRevenue")}
@@ -56,20 +70,6 @@ const Dashboard = () => {
                     change="+8.2%"
                     changeType="positive"
                     icon={DollarSign}
-                  />
-                  <MetricCard
-                    title={t("ordersThisMonth")}
-                    value="486"
-                    change="+15.3%"
-                    changeType="positive"
-                    icon={ShoppingCart}
-                  />
-                  <MetricCard
-                    title={t("growthRate")}
-                    value="23.1%"
-                    change="+2.4%"
-                    changeType="positive"
-                    icon={TrendingUp}
                   />
                 </div>
               </div>
@@ -180,7 +180,7 @@ const Dashboard = () => {
               <div className="p-4 sm:p-6 rounded-2xl bg-white border border-gray-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="flex items-center gap-3 sm:gap-4">
                   <div className="p-2 sm:p-3 bg-green-100 rounded-xl">
-                    <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-green-600" />
+                    <BarChart3 className="h-5 w-5 sm:h-6 sm:w-6 text-green-600" />
                   </div>
                   <div>
                     <p className="text-sm sm:text-base lg:text-lg font-poppins font-semibold">{t("monthlyGrowth")}</p>

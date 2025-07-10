@@ -6,7 +6,9 @@ import {
   FileText, 
   Settings,
   Leaf,
-  Package
+  Package,
+  UserCheck,
+  UsersRound
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -50,6 +52,16 @@ export function AppSidebar() {
       icon: FileText,
     },
     {
+      title: "Farmers",
+      url: "/farmers",
+      icon: UserCheck,
+    },
+    {
+      title: "Customers",
+      url: "/customers",
+      icon: UsersRound,
+    },
+    {
       title: t("userManagement"),
       url: "/user-management",
       icon: Users,
@@ -64,23 +76,20 @@ export function AppSidebar() {
   return (
     <Sidebar className="border-r border-sidebar-border">
       <SidebarHeader className="border-b border-sidebar-border p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img 
-              src="/lovable-uploads/4d59c38b-212e-45ce-add5-0cac48484fc2.png" 
-              alt="Mulika Logo" 
-              className="w-10 h-10"
-            />
-            <div className="flex flex-col">
-              <h2 className="text-xl font-poppins font-bold text-sidebar-foreground">
-                Mulika
-              </h2>
-              <p className="text-sm text-sidebar-foreground/70">
-                Farm Dashboard
-              </p>
-            </div>
+        <div className="flex items-center gap-3">
+          <img 
+            src="/lovable-uploads/4d59c38b-212e-45ce-add5-0cac48484fc2.png" 
+            alt="Murika Logo" 
+            className="w-10 h-10"
+          />
+          <div className="flex flex-col">
+            <h2 className="text-xl font-poppins font-bold text-sidebar-foreground">
+              Murika
+            </h2>
+            <p className="text-sm text-sidebar-foreground/70">
+              Farm Dashboard
+            </p>
           </div>
-          <LanguageSwitcher />
         </div>
       </SidebarHeader>
       
@@ -111,9 +120,12 @@ export function AppSidebar() {
       </SidebarContent>
       
       <SidebarFooter className="border-t border-sidebar-border p-4">
-        <div className="flex items-center gap-3 text-sidebar-foreground/70">
-          <Leaf className="h-4 w-4" />
-          <span className="text-sm font-quicksand">{t("growingTogether")}</span>
+        <div className="space-y-3">
+          <LanguageSwitcher />
+          <div className="flex items-center gap-3 text-sidebar-foreground/70">
+            <Leaf className="h-4 w-4" />
+            <span className="text-sm font-quicksand">{t("growingTogether")}</span>
+          </div>
         </div>
       </SidebarFooter>
     </Sidebar>

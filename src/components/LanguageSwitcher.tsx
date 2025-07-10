@@ -15,11 +15,11 @@ export const LanguageSwitcher = () => {
       variant="ghost"
       size="sm"
       onClick={toggleLanguage}
-      className="flex items-center gap-2 text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent"
+      className="flex items-center gap-2 text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent w-full justify-start"
     >
       <Globe className="h-4 w-4" />
       <span className="font-quicksand text-sm">
-        {language === 'en' ? 'EN' : 'RW'}
+        {language === 'en' ? 'English' : 'Kinyarwanda'}
       </span>
     </Button>
   );
