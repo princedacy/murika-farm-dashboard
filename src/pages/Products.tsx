@@ -4,7 +4,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Package, Plus, Filter, Edit, Trash2, Search, X } from "lucide-react";
+import { Package, Plus, Filter, Edit, Trash2, Search, X, Upload, FolderOpen, Smartphone, BarChart3 } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,10 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ProductCategories } from "@/components/ProductCategories";
+import { FarmerInventorySubmissions } from "@/components/FarmerInventorySubmissions";
+import { InventoryTracking } from "@/components/InventoryTracking";
 
 const initialProducts = [
   {
@@ -78,6 +82,8 @@ const Products = () => {
     farmer: "",
     price: "",
     stock: "",
+    availableQuantity: "",
+    image: "",
     status: "active"
   });
 
@@ -132,6 +138,8 @@ const Products = () => {
       farmer: "",
       price: "",
       stock: "",
+      availableQuantity: "",
+      image: "",
       status: "active"
     });
     setEditingProduct(null);
@@ -146,6 +154,8 @@ const Products = () => {
       farmer: product.farmer,
       price: product.price,
       stock: product.stock,
+      availableQuantity: product.availableQuantity || "",
+      image: product.image || "",
       status: product.status
     });
     setIsDialogOpen(true);
@@ -173,11 +183,31 @@ const Products = () => {
           </header>
 
           <div className="flex-1 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 lg:space-y-8 animate-fade-in">
-            <section>
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 sm:mb-6">
-                <h2 className="text-xl sm:text-2xl lg:text-3xl font-poppins font-semibold text-foreground">
-                  Product Listings
-                </h2>
+            <Tabs defaultValue="products" className="w-full">
+              <TabsList className="grid w-full grid-cols-4">
+                <TabsTrigger value="products" className="flex items-center gap-2">
+                  <Package className="h-4 w-4" />
+                  Products
+                </TabsTrigger>
+                <TabsTrigger value="categories" className="flex items-center gap-2">
+                  <FolderOpen className="h-4 w-4" />
+                  Categories
+                </TabsTrigger>
+                <TabsTrigger value="inventory" className="flex items-center gap-2">
+                  <BarChart3 className="h-4 w-4" />
+                  Inventory
+                </TabsTrigger>
+                <TabsTrigger value="submissions" className="flex items-center gap-2">
+                  <Smartphone className="h-4 w-4" />
+                  Farmer Submissions
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="products" className="space-y-4">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                  <h2 className="text-xl sm:text-2xl lg:text-3xl font-poppins font-semibold text-foreground">
+                    Product Listings
+                  </h2>
                 <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                   <Popover open={showFilters} onOpenChange={setShowFilters}>
                     <PopoverTrigger asChild>
@@ -296,14 +326,40 @@ const Products = () => {
                           />
                         </div>
                         <div>
-                          <Label htmlFor="stock">Stock</Label>
-                          <Input
-                            id="stock"
-                            value={formData.stock}
-                            onChange={(e) => setFormData(prev => ({ ...prev, stock: e.target.value }))}
-                            placeholder="e.g., 100 kg"
-                            required
-                          />
+                          <Label htmlFor="image">Product Image</Label>
+                          <div className="flex items-center gap-2">
+                            <Input
+                              id="image"
+                              value={formData.image}
+                              onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
+                              placeholder="Image URL or upload"
+                            />
+                            <Button type="button" size="sm" variant="outline">
+                              <Upload className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <div>
+                            <Label htmlFor="stock">Stock</Label>
+                            <Input
+                              id="stock"
+                              value={formData.stock}
+                              onChange={(e) => setFormData(prev => ({ ...prev, stock: e.target.value }))}
+                              placeholder="e.g., 100 kg"
+                              required
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="availableQuantity">Available Quantity</Label>
+                            <Input
+                              id="availableQuantity"
+                              value={formData.availableQuantity}
+                              onChange={(e) => setFormData(prev => ({ ...prev, availableQuantity: e.target.value }))}
+                              placeholder="e.g., 75 kg"
+                              required
+                            />
+                          </div>
                         </div>
                         <div>
                           <Label htmlFor="status">Status</Label>
@@ -329,8 +385,8 @@ const Products = () => {
                       </form>
                     </DialogContent>
                   </Dialog>
+                  </div>
                 </div>
-              </div>
               
               <Card className="border-0 shadow-xl bg-white">
                 <CardHeader className="p-4 sm:p-6">
@@ -424,7 +480,20 @@ const Products = () => {
                   )}
                 </CardContent>
               </Card>
-            </section>
+              </TabsContent>
+
+              <TabsContent value="categories">
+                <ProductCategories />
+              </TabsContent>
+
+              <TabsContent value="inventory">
+                <InventoryTracking />
+              </TabsContent>
+
+              <TabsContent value="submissions">
+                <FarmerInventorySubmissions />
+              </TabsContent>
+            </Tabs>
           </div>
         </main>
       </div>
