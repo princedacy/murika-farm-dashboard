@@ -1,4 +1,5 @@
 
+import { useState } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { OrdersSection } from "@/components/OrdersSection";
@@ -24,7 +25,7 @@ const OrderManagement = () => {
           <div className="flex-1 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 lg:space-y-8 animate-fade-in">
             <section>
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-poppins font-semibold mb-4 sm:mb-6 text-foreground">
-                Recent Orders
+                Orders
               </h2>
               <OrdersSection />
             </section>
