@@ -1,17 +1,17 @@
-
 import { useState } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { UserCheck, Plus, Filter, Edit, Trash2 } from "lucide-react";
+import { UserCheck, Plus, Filter, Edit, Trash2, Search, X } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const initialFarmers = [
   {
@@ -61,6 +61,10 @@ const Farmers = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingFarmer, setEditingFarmer] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [locationFilter, setLocationFilter] = useState("all");
+  const [showFilters, setShowFilters] = useState(false);
   const itemsPerPage = 5;
 
   const [formData, setFormData] = useState({
@@ -73,9 +77,33 @@ const Farmers = () => {
     status: "pending"
   });
 
-  const totalPages = Math.ceil(farmers.length / itemsPerPage);
+  const filteredFarmers = farmers.filter(farmer => {
+    const matchesSearch = searchTerm === "" || 
+      farmer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      farmer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      farmer.phone.includes(searchTerm) ||
+      farmer.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      farmer.crops.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      farmer.id.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesStatus = statusFilter === "all" || farmer.status === statusFilter;
+    const matchesLocation = locationFilter === "all" || farmer.location.toLowerCase().includes(locationFilter.toLowerCase());
+    
+    return matchesSearch && matchesStatus && matchesLocation;
+  });
+
+  const totalPages = Math.ceil(filteredFarmers.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedFarmers = farmers.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedFarmers = filteredFarmers.slice(startIndex, startIndex + itemsPerPage);
+
+  const locations = [...new Set(farmers.map(farmer => farmer.location))];
+
+  const clearFilters = () => {
+    setSearchTerm("");
+    setStatusFilter("all");
+    setLocationFilter("all");
+    setCurrentPage(1);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -151,10 +179,70 @@ const Farmers = () => {
                   Registered Farmers
                 </h2>
                 <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-                  <Button variant="outline" className="font-quicksand w-full sm:w-auto">
-                    <Filter className="h-4 w-4 mr-2" />
-                    Filter
-                  </Button>
+                  <Popover open={showFilters} onOpenChange={setShowFilters}>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" className="font-quicksand w-full sm:w-auto">
+                        <Filter className="h-4 w-4 mr-2" />
+                        Filter
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-80">
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="search">Search Farmers</Label>
+                          <div className="relative">
+                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              id="search"
+                              placeholder="Search by name, email, location, crops..."
+                              value={searchTerm}
+                              onChange={(e) => setSearchTerm(e.target.value)}
+                              className="pl-8"
+                            />
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="status-filter">Status</Label>
+                          <Select value={statusFilter} onValueChange={setStatusFilter}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="all">All Statuses</SelectItem>
+                              <SelectItem value="verified">Verified</SelectItem>
+                              <SelectItem value="pending">Pending</SelectItem>
+                              <SelectItem value="rejected">Rejected</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="location-filter">Location</Label>
+                          <Select value={locationFilter} onValueChange={setLocationFilter}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select location" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="all">All Locations</SelectItem>
+                              {locations.map((location) => (
+                                <SelectItem key={location} value={location.toLowerCase()}>
+                                  {location}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button onClick={clearFilters} variant="outline" size="sm" className="flex-1">
+                            <X className="h-4 w-4 mr-1" />
+                            Clear
+                          </Button>
+                          <Button onClick={() => setShowFilters(false)} size="sm" className="flex-1">
+                            Apply
+                          </Button>
+                        </div>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
                   <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                     <DialogTrigger asChild>
                       <Button className="bg-primary hover:bg-primary/90 font-quicksand w-full sm:w-auto">
@@ -261,7 +349,7 @@ const Farmers = () => {
                     Farmers Directory
                   </CardTitle>
                   <CardDescription className="font-quicksand text-sm sm:text-base">
-                    Manage farmer profiles and verification
+                    Manage farmer profiles and verification ({filteredFarmers.length} of {farmers.length} farmers)
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-4 sm:p-6 pt-0">
@@ -320,35 +408,37 @@ const Farmers = () => {
                     </TableBody>
                   </Table>
 
-                  <div className="mt-6">
-                    <Pagination>
-                      <PaginationContent>
-                        <PaginationItem>
-                          <PaginationPrevious 
-                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                            className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                          />
-                        </PaginationItem>
-                        {[...Array(totalPages)].map((_, index) => (
-                          <PaginationItem key={index}>
-                            <PaginationLink
-                              onClick={() => setCurrentPage(index + 1)}
-                              isActive={currentPage === index + 1}
-                              className="cursor-pointer"
-                            >
-                              {index + 1}
-                            </PaginationLink>
+                  {totalPages > 1 && (
+                    <div className="mt-6">
+                      <Pagination>
+                        <PaginationContent>
+                          <PaginationItem>
+                            <PaginationPrevious 
+                              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                              className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                            />
                           </PaginationItem>
-                        ))}
-                        <PaginationItem>
-                          <PaginationNext 
-                            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                            className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                          />
-                        </PaginationItem>
-                      </PaginationContent>
-                    </Pagination>
-                  </div>
+                          {[...Array(totalPages)].map((_, index) => (
+                            <PaginationItem key={index}>
+                              <PaginationLink
+                                onClick={() => setCurrentPage(index + 1)}
+                                isActive={currentPage === index + 1}
+                                className="cursor-pointer"
+                              >
+                                {index + 1}
+                              </PaginationLink>
+                            </PaginationItem>
+                          ))}
+                          <PaginationItem>
+                            <PaginationNext 
+                              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                              className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                            />
+                          </PaginationItem>
+                        </PaginationContent>
+                      </Pagination>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </section>
