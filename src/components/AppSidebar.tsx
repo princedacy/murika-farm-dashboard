@@ -62,11 +62,6 @@ export function AppSidebar() {
       icon: UsersRound,
     },
     {
-      title: t("userManagement"),
-      url: "/user-management",
-      icon: Users,
-    },
-    {
       title: t("settings"),
       url: "/settings",
       icon: Settings,
